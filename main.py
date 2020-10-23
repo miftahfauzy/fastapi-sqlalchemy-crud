@@ -7,8 +7,9 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR
 
-# coneecting to Postgres Database
-DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5432/dbtest"
+# connecting to Postgres Database
+# DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
+DATABASE_URL = "postgresql+pg8000://test_users:test_passwd@localhost:5433/dbtest"
 database = databases.Database(DATABASE_URL)
 metadata = MetaData()
 
@@ -26,11 +27,11 @@ users = Table(
     Column("status", CHAR)
 )
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, client_encoding='utf8')
 metadata.create_all(engine)
 
 api = FastAPI(
-    title="FastAPI SqlAchemy CRUD",
+    title="FastAPI SqlAlchemy CRUD",
     description="This is FastAPI and SqlAlchemy CRUD lab",
     version="1.0.0",
 )
@@ -67,6 +68,16 @@ class UserEntry(BaseModel):
     gender: str = Field(..., example="M")
 
 
+class UserUpdate(BaseModel):
+    id: str
+    username: str
+    password: str
+    first_name: str
+    last_name: str
+    gender: str
+    status = str
+
+
 # now construct a router
 @api.get("/users", response_model=List[UserList])
 async def find_all_user():
@@ -98,4 +109,28 @@ async def register_user(user: UserEntry):
         "update_at": "",
         "status": "1"
     }
+    return result
+
+
+@api.get("/users/{user_Id}", response_model=UserList)
+async def find_user_by_id(userid: str):
+    query = users.select().where(users.c.id == userid)
+    result = await database.fetch_one(query)
+    return result
+
+
+@api.put("/users", response_model=UserList)
+async def update_user(user: UserUpdate):
+    gDate = str(datetime.datetime.now())
+    query = users.update(). \
+        where(users.c.id == user.id). \
+        values(
+        first_name=user.first_name,
+        last_name=user.last_name,
+        gender=user.gender,
+        status=user.status,
+        update_at=gDate
+    )
+    await database.execute(query)
+    result = await find_user_by_id(user.id)
     return result
