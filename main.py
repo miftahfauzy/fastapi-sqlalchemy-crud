@@ -29,7 +29,11 @@ users = Table(
 engine = create_engine(DATABASE_URL)
 metadata.create_all(engine)
 
-api = FastAPI()
+api = FastAPI(
+    title="FastAPI SqlAchemy CRUD",
+    description="This is FastAPI and SqlAlchemy CRUD lab",
+    version="1.0.0",
+)
 
 
 @api.on_event("startup")
@@ -83,6 +87,7 @@ async def register_user(user: UserEntry):
         last_name=user.last_name,
         gender=user.gender,
         create_at=gDate,
+        update_at="",
         status="1"
     )
     await database.execute(query)
