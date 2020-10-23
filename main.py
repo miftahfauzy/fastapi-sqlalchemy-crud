@@ -71,7 +71,7 @@ async def find_all_user():
     return result
 
 
-@api.post("/users", response_model="UserList")
+@api.post("/users", response_model=UserList)
 async def register_user(user: UserEntry):
     gID = str(uuid.uuid1())
     gDate = str(datetime.datetime.now())
