@@ -1,10 +1,10 @@
+import datetime
+import uuid
 from typing import List
 
 import databases
-import datetime
-import uuid
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR
 
 # coneecting to Postgres Database
@@ -56,11 +56,11 @@ class UserList(BaseModel):
 
 
 class UserEntry(BaseModel):
-    username: str
-    password: str
-    first_name: str
-    last_name: str
-    gender: str
+    username: str = Field(..., example="johndoe")
+    password: str = Field(..., example="yourpassword")
+    first_name: str = Field(..., example="John")
+    last_name: str = Field(..., example="Doe")
+    gender: str = Field(..., example="M")
 
 
 # now construct a router
