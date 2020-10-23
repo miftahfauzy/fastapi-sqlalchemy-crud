@@ -67,6 +67,16 @@ class UserEntry(BaseModel):
     gender: str = Field(..., example="M")
 
 
+class UserUpdate(BaseModel):
+    id: str
+    username: str
+    password: str
+    first_name: str
+    last_name: str
+    gender: str
+    status = str
+
+
 # now construct a router
 @api.get("/users", response_model=List[UserList])
 async def find_all_user():
@@ -98,4 +108,28 @@ async def register_user(user: UserEntry):
         "update_at": "",
         "status": "1"
     }
+    return result
+
+
+@api.get("/users/{user_Id}", response_model=UserList)
+async def find_user_by_id(userid: str):
+    query = users.select().where(users.c.id == userid)
+    result = await database.fetch_one(query)
+    return result
+
+
+@api.put("/users", response_model=UserList)
+async def update_user(user: UserUpdate):
+    gDate = str(datetime.datetime.now())
+    query = users.update(). \
+        where(users.c.id == user.id). \
+        values(
+        first_name=user.first_name,
+        last_name=user.last_name,
+        gender=user.gender,
+        status=user.status,
+        update_at=gDate
+    )
+    await database.execute(query)
+    result = await find_user_by_id(user.id)
     return result
