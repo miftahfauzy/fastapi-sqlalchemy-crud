@@ -83,7 +83,6 @@ async def register_user(user: UserEntry):
         last_name=user.last_name,
         gender=user.gender,
         create_at=gDate,
-        update_at=None,
         status="1"
     )
     await database.execute(query)
@@ -91,7 +90,7 @@ async def register_user(user: UserEntry):
         "id": gID,
         **user.dict(),
         "create_at": gDate,
-        "update_at": None,
+        "update_at": "",
         "status": "1"
     }
     return result
