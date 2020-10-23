@@ -120,8 +120,7 @@ async def register_user(user: UserEntry):
 @api.get("/users/{user_Id}", response_model=UserList)
 async def find_user_by_id(userid: str):
     query = users.select().where(users.c.id == userid)
-    result = await database.fetch_one(query)
-    return result
+    return await database.fetch_one(query)
 
 
 @api.put("/users", response_model=UserList)
@@ -137,5 +136,5 @@ async def update_user(user: UserUpdate):
         update_at=gDate
     )
     await database.execute(query)
-    result = await find_user_by_id(user.id)
-    return result
+    
+    return await find_user_by_id(user.id)
