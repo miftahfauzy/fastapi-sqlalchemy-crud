@@ -8,9 +8,11 @@ from pydantic import BaseModel, Field
 from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR
 
 # connecting to Postgres Database
-# DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
+DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
+
 # connecting to sqlite Database
-DATABASE_URL = "sqlite:///test.db"
+# DATABASE_URL = "sqlite:///test.db"
+
 database = databases.Database(DATABASE_URL)
 metadata = MetaData()
 
