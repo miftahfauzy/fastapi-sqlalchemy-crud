@@ -137,4 +137,5 @@ async def update_user(user: UserUpdate):
         update_at=gDate
     )
     await database.execute(query)
-    return find_user_by_id(user.id)
+    result = await find_user_by_id(user.id)
+    return result
