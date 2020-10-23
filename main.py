@@ -9,7 +9,8 @@ from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR
 
 # connecting to Postgres Database
 # DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
-DATABASE_URL = "postgresql+pg8000://test_users:test_passwd@localhost:5433/dbtest"
+# connecting to sqlite Database
+DATABASE_URL = "sqlite:///test.db"
 database = databases.Database(DATABASE_URL)
 metadata = MetaData()
 
@@ -27,7 +28,7 @@ users = Table(
     Column("status", CHAR)
 )
 
-engine = create_engine(DATABASE_URL, client_encoding='utf8')
+engine = create_engine(DATABASE_URL)
 metadata.create_all(engine)
 
 api = FastAPI(
@@ -70,8 +71,6 @@ class UserEntry(BaseModel):
 
 class UserUpdate(BaseModel):
     id: str
-    username: str
-    password: str
     first_name: str
     last_name: str
     gender: str
@@ -79,6 +78,12 @@ class UserUpdate(BaseModel):
 
 
 # now construct a router
+# create route for root
+@api.get("/")
+async def get_root():
+    return {"message": "Welcome to FastAPI SQLAlchemy CRUD test"}
+
+
 @api.get("/users", response_model=List[UserList])
 async def find_all_user():
     query = users.select()
@@ -132,5 +137,4 @@ async def update_user(user: UserUpdate):
         update_at=gDate
     )
     await database.execute(query)
-    result = await find_user_by_id(user.id)
-    return result
+    return find_user_by_id(user.id)
