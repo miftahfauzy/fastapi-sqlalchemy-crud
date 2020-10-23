@@ -1,6 +1,8 @@
 from typing import List
 
 import databases
+import datetime
+import uuid
 from fastapi import FastAPI
 from pydantic import BaseModel
 from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR
@@ -53,9 +55,41 @@ class UserList(BaseModel):
     status: str
 
 
+class UserEntry(BaseModel):
+    username: str
+    password: str
+    first_name: str
+    last_name: str
+    gender: str
+
+
 # now construct a router
 @api.get("/users", response_model=List[UserList])
 async def find_all_user():
     query = users.select()
     result = await database.fetch_all(query)
+    return result
+
+
+@api.post("/users", response_model="UserList")
+async def register_user(user: UserEntry):
+    gID = str(uuid.uuid1())
+    gDate = str(datetime.datetime.now())
+    query = users.insert().values(
+        id=gID,
+        username=user.username,
+        password=user.password,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        gender=user.gender,
+        create_at=gDate,
+        status="1"
+    )
+    await database.execute(query)
+    result = {
+        "id": gID,
+        **user.dict(),
+        "create_at": gDate,
+        "status": "1"
+    }
     return result
