@@ -1,0 +1,5 @@
+fastapi[all]
+databases
+sqlalchemy
+asyncpg
+psycopg2
