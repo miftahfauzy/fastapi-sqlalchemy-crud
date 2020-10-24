@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "fastapi-env/bin/python",
+    "python.pythonPath": "/Users/miftahfauzy/python-labs/fastapi/fastapi-sqlalchemy-crud/venv/bin/python",
     "python.formatting.provider": "black",
     "sqltools.connections": [
         {
