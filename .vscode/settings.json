@@ -1,4 +1,39 @@
 {
     "python.pythonPath": "fastapi-env/bin/python",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "autopep8",
+    "sqltools.connections": [
+        {
+            "database": "emp",
+            "dialect": "PostgreSQL",
+            "name": "postgres-local",
+            "password": "pgsql",
+            "port": 5433,
+            "server": "localhost",
+            "username": "postgres",
+            "driver": "PostgreSQL"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MariaDB",
+            "name": "dbtest@mariadb",
+            "database": "dbtest",
+            "username": "root",
+            "password": "password"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5433,
+            "driver": "PostgreSQL",
+            "name": "dbtest@postgres",
+            "database": "dbtest",
+            "username": "test_users",
+            "password": "test_passwd"
+        }
+    ]
 }

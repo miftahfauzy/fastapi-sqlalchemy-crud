@@ -1,17 +1,17 @@
 import datetime
 import uuid
 from typing import List
-import aiomysql
+
 import databases
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR, VARCHAR, Text
 
 # connecting to Postgres Database
-# DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
+DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
 
 # connecting to MySQL Database
-DATABASE_URL = "mysql://root:password@localhost:3306/dbtest"
+# DATABASE_URL = "mysql://root:password@localhost:3306/dbtest"
 
 # connecting to sqlite Database
 # DATABASE_URL = "sqlite:///test.db"
