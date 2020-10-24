@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/Users/miftahfauzy/PycharmProjects/FastAPI/fastapi-sqlalchemy-crud/venv/bin/python",
+    "python.pythonPath": "fastapi-env/bin/python",
     "python.formatting.provider": "black"
 }

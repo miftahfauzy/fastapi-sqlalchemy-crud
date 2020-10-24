@@ -1,17 +1,21 @@
 import datetime
 import uuid
 from typing import List
-
+import aiomysql
 import databases
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR
+from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR, VARCHAR, Text
 
 # connecting to Postgres Database
-DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
+# DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
+
+# connecting to MySQL Database
+DATABASE_URL = "mysql://root:password@localhost:3306/dbtest"
 
 # connecting to sqlite Database
 # DATABASE_URL = "sqlite:///test.db"
+
 
 database = databases.Database(DATABASE_URL)
 metadata = MetaData()
@@ -19,14 +23,14 @@ metadata = MetaData()
 users = Table(
     "users",
     metadata,
-    Column("id", String, primary_key=True),
-    Column("username", String),
-    Column("password", String),
-    Column("first_name", String),
-    Column("last_name", String),
-    Column("gender", String),
-    Column("create_at", String),
-    Column("update_at", String),
+    Column("id", VARCHAR(36), primary_key=True),
+    Column("username", Text),
+    Column("password", Text),
+    Column("first_name", Text),
+    Column("last_name", Text),
+    Column("gender", Text),
+    Column("create_at", Text),
+    Column("update_at", Text),
     Column("status", CHAR),
 )
 
