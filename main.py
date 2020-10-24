@@ -5,7 +5,16 @@ from typing import List
 import databases
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-from sqlalchemy import create_engine, MetaData, Table, Column, String, CHAR, VARCHAR, Text
+from sqlalchemy import (
+    create_engine,
+    MetaData,
+    Table,
+    Column,
+    String,
+    CHAR,
+    VARCHAR,
+    Text,
+)
 
 # connecting to Postgres Database
 DATABASE_URL = "postgresql://test_users:test_passwd@localhost:5433/dbtest"
